@@ -25,7 +25,6 @@ match operatingSystem:
     case "Darwin":
         osDir: str = macOSFolder
     
-
 def InstallLuna():
     try:
         os.rename(f"{osDir}/app.asar", f"{osDir}/original.asar")
@@ -35,7 +34,7 @@ def InstallLuna():
         print(osDir)
 
     try:
-        with zipfile.ZipFile("luna.zip", "r") as LunaZip:
+        with zipfile.ZipFile("luna.zip", "w") as LunaZip:
             LunaZip.extractall(f"{osDir}/app")
             print(f"File {LunaZip} successfully extracted!")
     except Exception as e:
@@ -50,7 +49,6 @@ def CodeSignOSX():
             pass
     except Exception as e:
         print(f"Error {e} has occurred while attempting to Code Sign Tidal Client!")
-
 
 check_and_download_updates(
     GitHubRepo(owner, repo)
