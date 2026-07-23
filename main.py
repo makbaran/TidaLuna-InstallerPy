@@ -18,17 +18,6 @@ def WinTidalVersion():
                     index = appDirectory[:index] + appDirectory[index + len("app-"):]
                     tidalVersionList.append(index)
 
-<<<<<<< HEAD
-match operatingSystem:
-    case "Linux":
-        osDir: str = linuxFolder 
-    case "Windows":
-        osDir: str = windowsFolder
-    case "Darwin":
-        osDir: str = macOSFolder
-    
-def InstallLuna():
-=======
     # Assuming found directories are in order pick the last one in list
     tidalVersion = tidalVersionList[-1]
     return winUser, tidalVersion
@@ -56,7 +45,6 @@ def DownloadLuna():
     owner: str = "Inrixia"
     repo: str = "TidaLuna"
     release: str = "luna.zip"
->>>>>>> 65d5d0f (FIX: Deleted .git attr, fixed windows functionality and finding directory to download to, and finally added stable way to download github releases.)
     try:
         os.system(f"curl -L -O https://github.com/{owner}/{repo}/releases/latest/download/{release}")
     except Exception as e:
@@ -77,18 +65,12 @@ def InstallLuna(targetDirectory):
         print(targetDirectory)
 
     try:
-<<<<<<< HEAD
-        with zipfile.ZipFile("luna.zip", "w") as LunaZip:
-            LunaZip.extractall(f"{osDir}/app")
-            print(f"File {LunaZip} successfully extracted!")
-=======
         with zipfile.ZipFile("luna.zip", "r") as LunaZip:
             LunaZip.extractall(f"{targetDirectory}app")
             print(f"File luna.zip successfully extracted!")
     except FileNotFoundError: 
         print("Zip file luna.zip does not exist.")
         print("Github release may not have been downloaded!")
->>>>>>> 65d5d0f (FIX: Deleted .git attr, fixed windows functionality and finding directory to download to, and finally added stable way to download github releases.)
     except Exception as e:
         print(f"Error {e} occurred when extracting luna.zip")
 
@@ -100,15 +82,6 @@ def CodeSignOSX():
     except Exception as e:
         print(f"Error {e} has occurred while attempting to Code Sign Tidal Client!")
 
-<<<<<<< HEAD
-check_and_download_updates(
-    GitHubRepo(owner, repo)
-)
-
-InstallLuna()
-CodeSignOSX()
-=======
 ChooseOS()
 CodeSignOSX()
 
->>>>>>> 65d5d0f (FIX: Deleted .git attr, fixed windows functionality and finding directory to download to, and finally added stable way to download github releases.)
