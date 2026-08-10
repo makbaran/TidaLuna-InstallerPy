@@ -1,22 +1,16 @@
-[TidaLuna]: https://github.com/Inrixia/TidaLuna
-[TidaLunaInstallerPyRepoLink]: https://github.com/makbaran/TidaLunaInstallerPy.git
 [LICENSE]: https://github.com/makbaran/TidaLunaInstallerPy/blob/main/LICENSE
 
-<h1 style="text-align:center;"></h>TidaLuna Installer Py </h1>
+# TidaLunaInstallerPy
+A simple script written in Python for detecting your os, downloading, extracting, and installing Luna Mod files onto the Tidal client on Windows, Mac, and Linux (Currently in Development).
 
-<p style="text-align:center;"> A work in progress [TidaLuna] installer that automatically detects os and installs the mod files seamlessly.</p>
+# Prerequeistes for manual installation
+- Python 3.14.5, git, pip, and a will to live.
+## Manual Installation
+1. Open your terminal and clone the repo by typing this in: `git clone https://github.com/makbaran/TidaLunaInstallerPy.git`
+2. Move into the repo `cd TidaLunaInstallerPy`
+3. Create Python venv to avoid package conflict issues
+4. Install are necessary imports using `pip -r install requirements`
+5. Run code from terminal or preferred IDE: `python main.py`
 
-<h2 style="text-align:left;">Overview</h2>
-
-
-<h2 style="text-align:left;">Installation</h2>
-<h3 style="text-align:left;">Prerequisites</h3>
-<p style="text-align:left;">First make sure you have python and git installed on your system.</p>
-<p style="test-align:left;">Clone the repo by running `git clone https://github.com/makbaran/TidaLunaInstallerPy.git`</p>
-
-<p style="test-align:left;">`cd TidaLunaInstallerPy`</p>
-
-<p style="test-align:left;">`python main.py`</p>
-
-<h2 style="text-align:left;">License</h2>
-<p style="text-align:left;">This project is distributed under the MIT license. See [LICENSE] for more information. </p>
+## License
+This project is distributed under the MIT license, for more information see [LICENSE].
