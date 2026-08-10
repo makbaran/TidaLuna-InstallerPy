@@ -12,8 +12,8 @@ For more information about the Luna client see the repo: https://github.com/Inri
 1. Open your terminal and clone the repo by typing this in: `git clone https://github.com/makbaran/TidaLunaInstallerPy.git`
 2. Move into the repo `cd TidaLunaInstallerPy`
 3. Create Python venv to avoid package conflict issues
-4. Install are necessary imports using `pip -r install requirements`
-5. Run code from terminal or preferred IDE: `python main.py`
+4. Run code from terminal or preferred IDE: `python main.py`
+5. If there are import errors be sure to install any missing packages using pip: `pip install [package name]`
 
 ## License
 This project is distributed under the MIT license, for more information see [LICENSE].
