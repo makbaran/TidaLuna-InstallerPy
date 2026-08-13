@@ -128,7 +128,7 @@ jobs:
           run: |
             echo "Checking contents of artifacts/ directory:"
             ls -la artifacts/
-            
+
         - name: Create GitHub Release
           uses: softprops/action-gh-release@v2
           env:
@@ -139,5 +139,5 @@ jobs:
             draft: false
             prerelease: false
             files:
-              artifacts/*
+              artifacts/*.*
 
