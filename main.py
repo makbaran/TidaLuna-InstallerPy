@@ -1,6 +1,19 @@
 import os
 import platform
 import zipfile
+from pathlib import Path
+
+def ModdedClientCheck(targetDirectory):
+    isModded: bool
+    targetPath = Path(f"{targetDirectory}app")
+    targetFile = Path(f"{targetDirectory}original.asar")
+
+    if targetPath.exists() and targetFile.exists():
+        isModded = True
+    else:
+        isModded = False
+
+    return isModded
 
 def WinTidalVersion():
     tidalVersion: str
@@ -38,6 +51,9 @@ def ChooseOS():
         case "Darwin":
             targetDirectory = macOSFolder
 
+    if ModdedClientCheck(targetDirectory) == True:
+        print("Client is already modded!")
+    ModdedClientCheck(targetDirectory)
     DownloadLuna()
     InstallLuna(targetDirectory)
 
