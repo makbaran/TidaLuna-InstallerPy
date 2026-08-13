@@ -1,39 +1,139 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+name: TidaLuna-InstallerPy App Builder
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags: 
+      - 'v*'
+    branches:
+      - main
 
 permissions:
   contents: read
 
 jobs:
-  build:
+    Build:
+      name: Build ${{ matrix.platform.os-name }}
+      runs-on: ${{ matrix.platform.runs-on }}
+      strategy: 
+          matrix:
+            platform:
+              - os-name: windows-x86_64
+                runs-on: windows-latest
 
-    runs-on: ubuntu-latest
+              - os-name: macOS-x86_64
+                runs-on: macOS-15-intel
+                  
+              - os-name: macOS-aarch64
+                runs-on: macOS-latest
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pytest
+      steps:
+        - name: Check Code
+          uses: actions/checkout@v4
+          
+        - name: Setup Python
+          uses: actions/setup-python@v5
+          with:
+              python-version: '3.14.5'                           
+              cache: 'pip'
+              cache-dependency-path: |
+                **/requirements*.txt
+
+        - name: Install Linux Dependencies
+          if: matrix.platform.runs-on == 'ubuntu-latest'
+          run: |
+              sudo apt-get update
+              sudo apt-get install -y patchelf
+          
+        - name: install python dependencies
+          run: | 
+              python -m pip install --upgrade pip
+              pip install nuitka
+              pip install -r requirements.txt
+        
+        - name: Nuitka Installation and Building Windows x64
+          if: matrix.platform.runs-on == 'windows-latest'
+          uses: Nuitka/Nuitka-Action@main
+          with:
+            nuitka-version: main
+            script-name: main.py
+            mode: app
+
+        - name: Nuitka Installation and Building MacOS x64
+          if: matrix.platform.runs-on == 'macOS-15-intel'
+          run: |
+            ls
+            python -m nuitka --standalone --macos-create-app-bundle main.py
+          shell: bash
+
+        - name: Nuitka Installation and Building MacOS ARM64
+          if: matrix.platform.runs-on == 'macOS-latest'
+          run: |
+            ls
+            python -m nuitka --standalone --macos-create-app-bundle main.py
+          shell: bash
+
+
+        - name: Create Artifacts Directory
+          run: |
+            mkdir -p ./artifacts/
+
+        - name: Prep Windows Artifact
+          if: matrix.platform.runs-on == 'windows-latest'
+          run: |
+            dir
+            mv build\*.exe TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.exe
+            copy build\*.exe .\artifacts\
+          shell: powershell
+
+        - name: Prep MacOS ARM Artifact
+          if: matrix.platform.runs-on == 'macOS-latest'
+          run: |
+            ls
+            mv main.app TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
+            cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app ./artifacts/
+          shell: bash
+        
+        - name: Prep MacOS Intel Artifact
+          if: matrix.platform.runs-on == 'macOS-15-intel'
+          run: |
+            ls
+            mv main.app TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
+            cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app ./artifacts/
+          shell: bash
+
+        - name: Upload Build Artifacts
+          uses: actions/upload-artifact@v4
+          with: 
+            name: ${{ matrix.platform.os-name }}-${{ matrix.platform.runs-on != 'windows-latest' && steps.get_version.outputs.new_tag || steps.get_version_win.outputs.new_tag }}
+            path: ./artifacts/
+        
+    Release:
+      name: Create Release with Auto-Version
+      needs: Build
+      runs-on: ubuntu-latest
+      permissions: 
+        contents: write
+
+      steps: 
+        - name: Check Code
+          uses: actions/checkout@v4
+        
+        - name: Download All Artifacts
+          uses: actions/download-artifact@v4
+          with:
+              path: ./artifacts/
+              pattern: "*"
+              merge-multiple: true
+
+        - name: Create GitHub Release
+          uses: softprops/action-gh-release@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            name: Main Build and Release
+            tag_name: ${{ github.ref_name }}
+            draft: false
+            prerelease: false
+            files:
+              ./artifacts/*
+
