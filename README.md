@@ -1,8 +1,9 @@
 [TidaLuna]: https://github.com/Inrixia/TidaLuna
+[TidaLuna-Installer]: https://github.com/jxnxsdev/TidaLuna-Installer
 [LICENSE]: https://github.com/makbaran/TidaLunaInstallerPy/blob/main/LICENSE
 
 # TidaLunaInstallerPy
-A simple script written in Python for detecting your os, downloading, extracting, and installing [TidaLuna] mod files onto the Tidal client on Windows, Mac, and Linux (Currently in Development).
+A simple script written in Python for detecting your os, downloading, extracting, and installing [TidaLuna] mod files onto the Tidal client on Windows, Mac, and Linux (Currently in Development). This project is not affiliated with the official [TidaLuna-Installer].
 
 For more information about the Luna client see the repo: https://github.com/Inrixia/TidaLuna
 
