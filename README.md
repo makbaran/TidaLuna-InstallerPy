@@ -4,7 +4,7 @@
 
 # TidaLuna-InstallerPy
 A simple cross platform CLI application written in Python that installs the [TidaLuna] mod onto the Tidal client. 
-Currently the application supports Windows and MacOS with Linux support currently in development. This project is not affiliated with the official [TidaLuna-Installer].
+Currently the application supports Windows and MacOS with Linux support in development. This project is not affiliated with the official [TidaLuna-Installer].
 
 For more information about the Luna client see the repo: https://github.com/Inrixia/TidaLuna
 
