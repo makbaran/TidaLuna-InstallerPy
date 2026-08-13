@@ -75,14 +75,14 @@ jobs:
 
         - name: Create Artifacts Directory
           run: |
-            mkdir -p ./artifacts/
+            mkdir -p artifacts/
 
         - name: Prep Windows Artifact
           if: matrix.platform.runs-on == 'windows-latest'
           run: |
             dir
             mv build\*.exe TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.exe
-            copy build\*.exe .\artifacts\
+            copy build\*.exe artifacts\
           shell: powershell
 
         - name: Prep MacOS ARM Artifact
@@ -90,7 +90,7 @@ jobs:
           run: |
             ls
             mv main.app TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
-            cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app ./artifacts/
+            cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app artifacts/
           shell: bash
         
         - name: Prep MacOS Intel Artifact
@@ -98,14 +98,14 @@ jobs:
           run: |
             ls
             mv main.app TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
-            cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app ./artifacts/
+            cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app artifacts/
           shell: bash
 
         - name: Upload Build Artifacts
           uses: actions/upload-artifact@v4
           with: 
             name: ${{ matrix.platform.os-name }}-${{ matrix.platform.runs-on != 'windows-latest' && steps.get_version.outputs.new_tag || steps.get_version_win.outputs.new_tag }}
-            path: ./artifacts/
+            path: artifacts/
         
     Release:
       name: Create Release with Auto-Version
@@ -121,7 +121,7 @@ jobs:
         - name: Download All Artifacts
           uses: actions/download-artifact@v4
           with:
-              path: ./artifacts/
+              path: artifacts/
               pattern: "*"
               merge-multiple: true
 
@@ -135,5 +135,5 @@ jobs:
             draft: false
             prerelease: false
             files:
-              artifacts/
+              artifacts/*
 
