@@ -133,6 +133,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            gh release upload ${{ github.ref_name }} artifacts/* --clobber
+            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-latest-main.app --clobber
+            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-15-intel-main.app --clobber
             
 
