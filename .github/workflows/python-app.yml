@@ -91,6 +91,7 @@ jobs:
             ls
             mv main.app TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
             cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app artifacts/
+            zip -r artifacts/TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
           shell: bash
         
         - name: Prep MacOS Intel Artifact
@@ -99,6 +100,7 @@ jobs:
             ls
             mv main.app TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
             cp -R TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app artifacts/
+            zip -r artifacts/TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.app
           shell: bash
 
         - name: Upload Build Artifacts
@@ -133,7 +135,8 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-latest-main.app --clobber
-            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-15-intel-main.app --clobber
+            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-latest-main.zip --clobber
+            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-15-intel-main.zip --clobber
+            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-windows-latest.exe --clobber
             
 
