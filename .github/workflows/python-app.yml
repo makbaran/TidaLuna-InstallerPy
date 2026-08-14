@@ -76,12 +76,12 @@ jobs:
         - name: Create Artifacts Directory
           run: |
             mkdir -p artifacts/
-
+      
         - name: Prep Windows Artifact
           if: matrix.platform.runs-on == 'windows-latest'
           run: |
             dir
-            Rename-Item -Path "build\*.exe" -NewName "artifacts\TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.exe"
+            Move-Item -Path "build\*.exe" -Destination "artifacts\TidaLuna-InstallerPy-${{ matrix.platform.runs-on }}-${{ github.ref_name }}.exe"
           shell: powershell
 
         - name: Prep MacOS ARM Artifact
