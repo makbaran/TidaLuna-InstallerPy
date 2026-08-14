@@ -137,6 +137,6 @@ jobs:
           run: |
             gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-latest-main.zip --clobber
             gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-macOS-15-intel-main.zip --clobber
-            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-windows-latest.exe --clobber
+            gh release upload ${{ github.ref_name }} artifacts/TidaLuna-InstallerPy-windows-latest-main.exe --clobber
             
 
