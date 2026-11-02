@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 import platform
 import zipfile
@@ -23,9 +24,8 @@ def WinTidalVersion():
     tidalVersionList: list[str] = []
 
     for directory in os.scandir(winTidalDir):
-        if directory.is_dir():
-            if directory.name.startswith("app-"):
-                appDirectory: str = directory.name 
+        if directory.is_dir() and directory.name.startswith("app-"):
+                appDirectory: str = directory.name
                 index = appDirectory.find("app-")
                 if index != -1:
                     index = appDirectory[:index] + appDirectory[index + len("app-"):]
@@ -43,7 +43,7 @@ def ChooseOS():
 
     match operatingSystem:
         case "Linux":
-            targetDirectory = linuxFolder 
+            targetDirectory = linuxFolder
         case "Windows":
             winUser, tidalVersion = WinTidalVersion()
             windowsFolder: str = f"C:/Users/{winUser}/AppData/Local/TIDAL/app-{tidalVersion}/resources/"
@@ -75,7 +75,7 @@ def DownloadLuna():
 def InstallLuna(targetDirectory):
     try:
         os.rename(f"{targetDirectory}app.asar", f"{targetDirectory}original.asar")
-        print(f"File renamed from app.asar to original.asar successfully!")
+        print("File renamed from app.asar to original.asar successfully!")
     except Exception as e:
         print(f"An error {e} occurred!")
         print(targetDirectory)
@@ -83,8 +83,8 @@ def InstallLuna(targetDirectory):
     try:
         with zipfile.ZipFile("luna.zip", "r") as LunaZip:
             LunaZip.extractall(f"{targetDirectory}app")
-            print(f"File luna.zip successfully extracted!")
-    except FileNotFoundError: 
+            print("File luna.zip successfully extracted!")
+    except FileNotFoundError:
         print("Zip file luna.zip does not exist.")
         print("Github release may not have been downloaded!")
     except Exception as e:
@@ -100,4 +100,3 @@ def CodeSignOSX():
 
 ChooseOS()
 CodeSignOSX()
-
